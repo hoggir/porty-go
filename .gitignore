@@ -19,10 +19,13 @@ go.work
 .vscode/
 
 # Environment variables file
+.git
 .env
+node_modules
 
 # Logs
 *.log
 
 # Temporary files
 tmp/
+tmp
