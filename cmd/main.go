@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"porty-go/config"
 	"porty-go/repositories"
 	"porty-go/routes"
+	"strings"
 
 	_ "porty-go/docs"
 
@@ -25,16 +25,22 @@ import (
 // @BasePath /
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
 
 	port := os.Getenv("PORT")
+	service := os.Getenv("SERVICE")
+
 	// Set the Swagger host dynamically
-	swaggerHost := fmt.Sprintf("localhost:%s", port)
+	service = strings.ToLower(service)
+	var swaggerHost string
+	if service == "local" {
+		swaggerHost = fmt.Sprintf("localhost:%s", port)
+	} else {
+		swaggerHost = "porty.up.railway.app"
+	}
 
 	// Update Swagger documentation with the dynamic host
-	doc := ginSwagger.URL(fmt.Sprintf("http://%s/swagger/doc.json", swaggerHost))
+	doc := ginSwagger.URL(fmt.Sprintf("https://%s/swagger/doc.json", swaggerHost))
 
 	client := config.LoadConfig()
 	repositories.Init(client)

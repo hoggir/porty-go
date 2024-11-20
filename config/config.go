@@ -14,9 +14,7 @@ import (
 var DB *mongo.Database
 
 func LoadConfig() *mongo.Client {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URL")))
 	if err != nil {
