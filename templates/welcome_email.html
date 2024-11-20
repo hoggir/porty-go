@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Porty!!!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            width: 150px;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .content p {
+            color: #666666;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="http://localhost:3000/">#PORTY</a>
+        </div>
+        <div class="content">
+            <h2>Hi {{.Name}},</h2>
+            <p>Thank you for signing up for Porty! We're excited to have you on our website.<br>
+                This link will expire in 24 hours, so please verify your email as soon as possible.<br>
+            </p>
+            <p>If you didn’t sign up for a Porty account, you can safely ignore this email.</p>
+            <p>Thanks for joining us!<br>
+                Best regards,<br>
+                The Porty Team</p>
+            <a href="{{.VerificationLink}}" class="button">Verify My Email Address</a>
+        </div>
+        <div class="footer">
+            <p>This email was sent to <a href="mailto:contact@merakiui.com">porty@mail.com</a>. If you'd rather not receive this kind of email, you can <a href="#">unsubscribe</a> or <a href="#">manage your email preferences</a>.</p>
+            <p>© <script>document.write(new Date().getFullYear());</script> Porty. All Rights Reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

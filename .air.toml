@@ -1,0 +1,15 @@
+# .air.toml
+
+[build]
+bin = "bin/main.exe" # Binary name for Windows
+cmd = "go build -o ./bin/main.exe ./cmd/main.go" # Command to build the binary
+full_bin = "./bin/main.exe" # Command to run the binary
+
+[log]
+level = "debug"
+
+[watch]
+# Directories to watch for changes
+includes = ["."]
+# Files to ignore
+excludes = ["tmp", "bin", "vendor"]

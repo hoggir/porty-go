@@ -1,0 +1,62 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"porty-go/config"
+	"porty-go/repositories"
+	"porty-go/routes"
+
+	_ "porty-go/docs"
+
+	"time"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
+
+// @title Porty!!! API
+// @version 1.0
+// @description This is a Doc for a Porty!!! API.
+// @BasePath /
+
+func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	port := os.Getenv("PORT")
+	// Set the Swagger host dynamically
+	swaggerHost := fmt.Sprintf("localhost:%s", port)
+
+	// Update Swagger documentation with the dynamic host
+	doc := ginSwagger.URL(fmt.Sprintf("http://%s/swagger/doc.json", swaggerHost))
+
+	client := config.LoadConfig()
+	repositories.Init(client)
+
+	r := gin.Default()
+
+	// Customize CORS middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8000"}, // Replace with your frontend URL
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	// Register routes
+	routes.SetupRouter(r)
+
+	// Swagger route
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, doc))
+
+	fmt.Println("Server is running at :" + port)
+	r.Run(":" + port)
+}
