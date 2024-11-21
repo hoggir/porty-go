@@ -7,10 +7,12 @@ import (
 	"porty-go/config"
 	"porty-go/models"
 	"porty-go/services"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/oauth2"
 	oauth2api "google.golang.org/api/oauth2/v2"
@@ -141,7 +143,17 @@ func GoogleLogin(c *gin.Context) {
 
 // GoogleCallback handles the callback from Google after the user has logged in
 func GoogleCallback(c *gin.Context) {
-	frontendURL := os.Getenv("FRONT_END_URL") // Replace with your frontend URL
+	_ = godotenv.Load()
+	service := os.Getenv("SERVICE")
+	// Set the Swagger host dynamically
+	service = strings.ToLower(service)
+	var frontendURL string
+	if service == "local" {
+		frontendURL = os.Getenv("FRONT_END_URL_LOCAL")
+	} else {
+		frontendURL = os.Getenv("FRONT_END_URL_SERVER")
+	}
+
 	state := c.Query("state")
 	if state != "state" {
 		c.JSON(http.StatusBadRequest, models.ErrorResponse{

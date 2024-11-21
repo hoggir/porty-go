@@ -18,6 +18,4 @@ func UserRoutes(r *gin.Engine) {
 	r.POST("/auth/login", controllers.LoginUser)
 	r.GET("/auth/google/login", controllers.GoogleLogin)
 	r.GET("/auth/google/callback", controllers.GoogleCallback)
-
-	// http://localhost:8000/auth/google/callback
 }

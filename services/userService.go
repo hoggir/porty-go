@@ -9,9 +9,11 @@ import (
 	"os"
 	"porty-go/models"
 	"porty-go/repositories"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
@@ -51,7 +53,19 @@ func RegisterUser(user models.User) (*mongo.InsertOneResult, error) {
 		log.Println("Error generating verification token:", err)
 		return nil, errors.New("failed to generate verification token")
 	}
-	verificationLink := "http://localhost:3000/users/verify?token=" + token
+
+	_ = godotenv.Load()
+	service := os.Getenv("SERVICE")
+	// Set the Swagger host dynamically
+	service = strings.ToLower(service)
+	var frontendURL string
+	if service == "local" {
+		frontendURL = os.Getenv("FRONT_END_URL_LOCAL")
+	} else {
+		frontendURL = os.Getenv("FRONT_END_URL_SERVER")
+	}
+
+	verificationLink := frontendURL + "/users/verify?token=" + token
 
 	// Send welcome email
 	if err := SendWelcomeEmail(user.Email, verificationLink); err != nil {
