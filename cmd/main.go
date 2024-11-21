@@ -49,7 +49,7 @@ func main() {
 
 	// Customize CORS middleware
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8000"}, // Replace with your frontend URL
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8000", "https://porty-gir.vercel.app", "https://porty.up.railway.app"}, // Replace with your frontend URL
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
