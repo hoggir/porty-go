@@ -7,4 +7,6 @@ import (
 func SetupRouter(r *gin.Engine) {
 	// Register user routes
 	UserRoutes(r)
+	// Register character routes
+	CharacterRoutes(r)
 }

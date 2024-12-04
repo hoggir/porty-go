@@ -1,0 +1,8 @@
+{
+  "exec": "go run cmd/main.go",
+  "signal": "SIGTERM",
+  "watch": [
+    "*.go"
+  ],
+  "ext": "go"
+}

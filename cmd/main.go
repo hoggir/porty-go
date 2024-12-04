@@ -28,7 +28,7 @@ func main() {
 	_ = godotenv.Load()
 
 	port := os.Getenv("PORT")
-	service := os.Getenv("SERVICE")
+	service := os.Getenv("WEB_SERVICE")
 
 	// Set the Swagger host dynamically
 	service = strings.ToLower(service)
@@ -38,6 +38,8 @@ func main() {
 	} else {
 		swaggerHost = "porty.up.railway.app"
 	}
+	fmt.Println("swaggerHost", swaggerHost)
+	fmt.Println("service", service)
 
 	// Update Swagger documentation with the dynamic host
 	doc := ginSwagger.URL(fmt.Sprintf("https://%s/swagger/doc.json", swaggerHost))
@@ -49,7 +51,7 @@ func main() {
 
 	// Customize CORS middleware
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8000", "https://porty-gir.vercel.app", "https://porty.up.railway.app"}, // Replace with your frontend URL
+		AllowOrigins:     config.AllowedOrigins, // Replace with your frontend URL
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -62,6 +64,10 @@ func main() {
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, doc))
+
+	// Print the Swagger URL to the console
+	swaggerURL := fmt.Sprintf("http://%s/swagger/index.html", swaggerHost)
+	fmt.Printf("Swagger documentation available at: %s\n", swaggerURL)
 
 	fmt.Println("Server is running at :" + port)
 	r.Run(":" + port)
