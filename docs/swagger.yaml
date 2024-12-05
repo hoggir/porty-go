@@ -127,6 +127,19 @@ paths:
   /characters:
     get:
       description: Get all characters from the database
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Number of records per page
+        in: query
+        name: record
+        type: integer
+      - description: Search term
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:

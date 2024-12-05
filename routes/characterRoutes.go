@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"porty-go/controllers"
 	"porty-go/repositories"
 	"porty-go/services"
@@ -12,10 +13,16 @@ import (
 func CharacterRoutes(r *gin.Engine) {
 	repo, err := repositories.NewCharacterRepository()
 	if err != nil {
-		// handle the error appropriately
-		panic(err)
+		fmt.Println("Failed to create a new character repository: ", err)
+		r.Use(func(c *gin.Context) {
+			c.JSON(500, gin.H{
+				"message": "Failed to create a new character repository: " + err.Error(),
+				"status":  "error",
+			})
+			c.Abort()
+		})
 	}
 	characterController := controllers.NewCharacterController(services.NewCharacterService(repo))
 
-	r.GET("/characters", characterController.GetAllCharacters)
+	r.GET("/characters", characterController.ListAllCharacters)
 }

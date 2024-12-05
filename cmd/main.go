@@ -7,10 +7,9 @@ import (
 	"porty-go/repositories"
 	"porty-go/routes"
 	"strings"
+	"time"
 
 	_ "porty-go/docs"
-
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -38,11 +37,12 @@ func main() {
 	} else {
 		swaggerHost = "porty.up.railway.app"
 	}
-	fmt.Println("swaggerHost", swaggerHost)
-	fmt.Println("service", service)
 
 	// Update Swagger documentation with the dynamic host
 	doc := ginSwagger.URL(fmt.Sprintf("https://%s/swagger/doc.json", swaggerHost))
+	if service == "local" {
+		doc = ginSwagger.URL(fmt.Sprintf("http://%s/swagger/doc.json", swaggerHost))
+	}
 
 	client := config.LoadConfig()
 	repositories.Init(client)
