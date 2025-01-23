@@ -48,3 +48,31 @@ func (cc *CharacterController) ListAllCharacters(c *gin.Context) {
 		Data:    characters,
 	})
 }
+
+// GetCharacterByID godoc
+// @Summary Get character by ID
+// @Description Get a character by ID from the database
+// @Tags characters
+// @Produce json
+// @Param id path int true "Character ID"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.ErrorResponse
+// @Failure 500 {object} models.ErrorResponse
+// @Router /characters/{id} [get]
+func (cc *CharacterController) GetCharacterByID(c *gin.Context) {
+	id := c.Param("id")
+
+	character, err := cc.service.GetCharacterByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Status:  "error",
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, models.Response{
+		Status:  "success",
+		Message: "Character retrieved successfully",
+		Data:    character,
+	})
+}

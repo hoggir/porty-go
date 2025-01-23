@@ -155,6 +155,47 @@
                 }
             }
         },
+        "/characters/{id}": {
+            "get": {
+                "description": "Get a character by ID from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "characters"
+                ],
+                "summary": "Get character by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Character ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/verify": {
             "get": {
                 "description": "Verify a user by Email",

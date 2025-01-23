@@ -25,4 +25,5 @@ func CharacterRoutes(r *gin.Engine) {
 	characterController := controllers.NewCharacterController(services.NewCharacterService(repo))
 
 	r.GET("/characters", characterController.ListAllCharacters)
+	r.GET("/characters/:id", characterController.GetCharacterByID)
 }

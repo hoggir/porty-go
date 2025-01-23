@@ -1,7 +1,8 @@
 package models
 
 type Character struct {
-	ID          int     `json:"id"`
+	ID          *int    `json:"id,omitempty"`
+	EncryptedID *string `json:"encrypted_id,omitempty"`
 	Name        string  `json:"name"`
 	Element     string  `json:"element"`
 	WeaponType  string  `json:"weapon_type"`
