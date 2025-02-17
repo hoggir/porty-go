@@ -9,4 +9,6 @@ func SetupRouter(r *gin.Engine) {
 	UserRoutes(r)
 	// Register character routes
 	CharacterRoutes(r)
+	// Register AI routes
+	AiRoutes(r)
 }

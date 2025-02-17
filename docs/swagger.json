@@ -1,10 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a Doc for a Porty!!! API.",
+        "description": "This is a Doc for a Porty!!! API 2.",
         "title": "Porty!!! API",
         "contact": {},
-        "version": "1.0"
+        "version": "2.0"
     },
     "basePath": "/",
     "paths": {
@@ -196,6 +196,57 @@
                 }
             }
         },
+        "/chat": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Just Chatbot AI testing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Test Chat Bot AI",
+                "parameters": [
+                    {
+                        "description": "Message",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.TestAiBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/verify": {
             "get": {
                 "description": "Verify a user by Email",
@@ -352,6 +403,14 @@
         }
     },
     "definitions": {
+        "controllers.TestAiBody": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "models.DataLoginResponse": {
             "type": "object",
             "properties": {
@@ -440,6 +499,14 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Use format: \"Bearer {your_token}\"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

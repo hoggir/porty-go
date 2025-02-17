@@ -144,7 +144,7 @@ func GoogleLogin(c *gin.Context) {
 // GoogleCallback handles the callback from Google after the user has logged in
 func GoogleCallback(c *gin.Context) {
 	_ = godotenv.Load()
-	service := os.Getenv("SERVICE")
+	service := os.Getenv("WEB_SERVICE")
 	// Set the Swagger host dynamically
 	service = strings.ToLower(service)
 	var frontendURL string

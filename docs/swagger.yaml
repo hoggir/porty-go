@@ -1,5 +1,10 @@
 basePath: /
 definitions:
+  controllers.TestAiBody:
+    properties:
+      message:
+        type: string
+    type: object
   models.DataLoginResponse:
     properties:
       email:
@@ -60,9 +65,9 @@ definitions:
     type: object
 info:
   contact: {}
-  description: This is a Doc for a Porty!!! API.
+  description: This is a Doc for a Porty!!! API 2.
   title: Porty!!! API
-  version: "1.0"
+  version: "2.0"
 paths:
   /auth/login:
     post:
@@ -187,6 +192,38 @@ paths:
       summary: Get character by ID
       tags:
       - characters
+  /chat:
+    post:
+      consumes:
+      - application/json
+      description: Just Chatbot AI testing
+      parameters:
+      - description: Message
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.TestAiBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Test Chat Bot AI
+      tags:
+      - AI
   /users/{id}:
     delete:
       description: Delete a user by ID
@@ -289,4 +326,10 @@ paths:
       summary: Verify a user by Email
       tags:
       - users
+securityDefinitions:
+  BearerAuth:
+    description: 'Use format: "Bearer {your_token}"'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

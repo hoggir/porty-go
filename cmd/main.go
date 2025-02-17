@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"porty-go/config"
+	"porty-go/models"
 	"porty-go/repositories"
 	"porty-go/routes"
 	"strings"
@@ -22,7 +24,10 @@ import (
 // @version 1.0
 // @description This is a Doc for a Porty!!! API.
 // @BasePath /
-
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Use format: "Bearer {your_token}"
 func main() {
 	_ = godotenv.Load()
 
@@ -64,6 +69,14 @@ func main() {
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, doc))
+
+	// Add a "Not Found" route
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, models.Response{
+			Status:  "error",
+			Message: "Route not found",
+		})
+	})
 
 	// Print the Swagger URL to the console
 	swaggerURL := fmt.Sprintf("http://%s/swagger/index.html", swaggerHost)

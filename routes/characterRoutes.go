@@ -3,6 +3,7 @@ package routes
 import (
 	"fmt"
 	"porty-go/controllers"
+	middleware "porty-go/middlewares"
 	"porty-go/repositories"
 	"porty-go/services"
 
@@ -24,6 +25,10 @@ func CharacterRoutes(r *gin.Engine) {
 	}
 	characterController := controllers.NewCharacterController(services.NewCharacterService(repo))
 
-	r.GET("/characters", characterController.ListAllCharacters)
-	r.GET("/characters/:id", characterController.GetCharacterByID)
+	protected := r.Group("/characters")
+	protected.Use(middleware.JWTAuth())
+	{
+		protected.GET("/", characterController.ListAllCharacters)
+		protected.GET("/:id", characterController.GetCharacterByID)
+	}
 }

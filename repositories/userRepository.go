@@ -9,12 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var userCollection *mongo.Collection
-
-func Init(client *mongo.Client) {
-	userCollection = client.Database("tedy").Collection("users")
-}
-
 func CreateUser(user models.User) (*mongo.InsertOneResult, error) {
 	return userCollection.InsertOne(context.Background(), user)
 }

@@ -254,7 +254,9 @@ func CreateOrUpdateOAuth(userInfo *oauth2api.Userinfo) (string, error) {
 
 // CustomClaims defines the custom claims for the JWT token
 type CustomClaims struct {
-	FullName string `json:"full_name"`
+	FullName string `json:"FullName"`
+	UserId   string `json:"UserId"`
+	Email    string `json:"Email"`
 	jwt.StandardClaims
 }
 
@@ -263,12 +265,12 @@ func GenerateToken(userID, email, fullName string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &CustomClaims{
 		FullName: fullName,
+		UserId:   userID,
+		Email:    email,
 		StandardClaims: jwt.StandardClaims{
-			Subject:   userID,
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
 			Issuer:    "porty-go",
-			Audience:  email,
 		},
 	}
 

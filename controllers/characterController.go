@@ -30,6 +30,26 @@ func NewCharacterController(service *services.CharacterService) *CharacterContro
 // @Failure 500 {object} models.ErrorResponse
 // @Router /characters [get]
 func (cc *CharacterController) ListAllCharacters(c *gin.Context) {
+	// USE TOKEN
+	// userData, exists := c.Get("user")
+	// if !exists {
+	// 	c.JSON(http.StatusUnauthorized, models.ErrorResponse{
+	// 		Status:  "error",
+	// 		Message: "User ID not found",
+	// 	})
+	// 	return
+	// }
+
+	// // Type assertion to extract user data
+	// userClaims, ok := userData.(*services.CustomClaims)
+	// if !ok {
+	// 	c.JSON(http.StatusUnauthorized, models.ErrorResponse{
+	// 		Status:  "error",
+	// 		Message: "Invalid user data",
+	// 	})
+	// 	return
+	// }
+
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	record, _ := strconv.Atoi(c.DefaultQuery("record", "10"))
 	search := c.DefaultQuery("search", "")
